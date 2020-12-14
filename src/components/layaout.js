@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import clsx from 'clsx';
+import styled from 'styled-components';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -16,9 +17,8 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
-import AllMovie from './storeMovie/allMovie';
+import LocalMoviesIcon from '@material-ui/icons/LocalMovies';
+import { Link } from "gatsby";
 
 const drawerWidth = 240;
 
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
-    width: `calc(100% - ${ theme.spacing(9) + 1}px)`,
+    width: `calc(100% - ${theme.spacing(9) + 1}px)`,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -83,13 +83,18 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     width: `calc(100% - ${theme.spacing(9) + 1}px)`,
-   // padding: theme.spacing(3),
+    // padding: theme.spacing(3),
   },
 }));
 
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  outline: none;
+`;
+
 export default function Layout({ children }) {
   const auth = useSelector(state => state.auth);
-  console.log(auth, 'auth')
+  //console.log(auth, 'auth')
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -103,7 +108,7 @@ export default function Layout({ children }) {
   };
 
   return (
-    <div className={classes.root}>
+    <div className={`${classes.root} root-layout`}>
       <CssBaseline />
       {/* <AppBar
         position="fixed"
@@ -142,33 +147,36 @@ export default function Layout({ children }) {
             [classes.drawerClose]: !open,
           }),
         }}
-        
+
       >
         <div className={classes.toolbar}>
-          <IconButton onClick={open? handleDrawerClose : handleDrawerOpen}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+          <IconButton onClick={open ? handleDrawerClose : handleDrawerOpen}>
+            {/* {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />} */}
+            {open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </div>
         <Divider />
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+          {[
+            {
+              name: "Peliculas",
+              Icon: LocalMoviesIcon,
+              uri: "/"
+            }
+          ].map((op, index) => {
+            const Icon = op.Icon;
+            return (
+              <StyledLink color="primary" to={op.uri} key={index}>
+                <ListItem button color="primary">
+                  <ListItemIcon>{<Icon />}</ListItemIcon>
+                  <ListItemText  color="primary"primary={op.name} />
+                </ListItem>
+              </StyledLink>
+            )
+          })}
         </List>
       </Drawer>
-      <main className={classes.content}>
+      <main className={`${classes.content} main-layout`}>
         {/* <div className={classes.toolbar} /> */}
         {children}
       </main>

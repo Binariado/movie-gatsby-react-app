@@ -49,9 +49,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AllMovie() {
+export default function AllMovie(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
+
+  // console.log(props,'props')
 
   const handleChange = (event, newValue) => {
     setValue(newValue);

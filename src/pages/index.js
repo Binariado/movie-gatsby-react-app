@@ -1,17 +1,14 @@
-import * as React from "react";
-import { useSelector } from 'react-redux';
-import Layout from '../components/layaout';
-import AllMovie from '../components/storeMovie/allMovie';
+import React from "react"
+import Layout from "../components/Layaout"
+import Home from "../components/home";
 
-// markup
-const IndexPage = () => {
-  const auth = useSelector(state => state.auth);
-  console.log(auth, 'auth')
+
+const App = (props) => {
+  console.log(props)
   return (
     <Layout>
-       <AllMovie />
+      <Home />
     </Layout>
   )
 }
-
-export default IndexPage
+export default App

@@ -1,6 +1,14 @@
 import {
+  AUTHENTICATED,
   INCREMENT_COUNTER
 } from './auth.types';
+
+export const authenticated = (payload) => {
+  return {
+    payload,
+    type: AUTHENTICATED
+  };
+};
 
 export const increment = () => {
   return {
